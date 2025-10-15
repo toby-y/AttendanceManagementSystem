@@ -1,0 +1,40 @@
+package com.example.system.entity;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Employee {
+
+    @Id
+    private String employeeId;
+
+    private String employeeName;
+    private String password;
+    private LocalDate birthday;
+    private String mail;
+    private String role; // USER / ADMIN
+    private LocalTime workStart;
+    private LocalTime workEnd;
+    private boolean enabled = true;
+    private boolean locked = false;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    private List<Attendance> attendances;
+}

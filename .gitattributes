@@ -1,0 +1,4 @@
+/mvnw text eol=lf
+*.cmd text eol=crlf
+# 改行コードの自動変換を無効化（全ファイル対象）
+* -text

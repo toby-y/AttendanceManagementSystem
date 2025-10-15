@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>勤怠管理</title>
+</head>
+<body>
+<h1 th:text="${employee.employeeName} + ' の勤怠'">Employee</h1>
+
+<form th:action="@{'/attendance/' + ${employee.employeeId} + '/clockin'}" method="post">
+    <button type="submit">出勤打刻</button>
+</form>
+
+<form th:action="@{'/attendance/' + ${employee.employeeId} + '/clockout'}" method="post">
+    <button type="submit">退勤打刻</button>
+</form>
+
+<h2>打刻履歴</h2>
+<table border="1">
+    <tr>
+        <th>出勤</th>
+        <th>退勤</th>
+    </tr>
+    <tr th:each="att : ${attendances}">
+        <td th:text="${att.clockIn}">clockIn</td>
+        <td th:text="${att.clockOut}">clockOut</td>
+    </tr>
+</table>
+</body>
+</html>
