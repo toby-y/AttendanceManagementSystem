@@ -14,17 +14,15 @@ import com.example.system.entity.Employee;
 import com.example.system.repository.EmployeeRepository;
 import com.example.system.service.AttendanceService;
 
+import lombok.AllArgsConstructor;
+
 @Controller
 @RequestMapping("/attendance")
+@AllArgsConstructor
 public class AttendanceController {
 
     private final AttendanceService attendanceService;
     private final EmployeeRepository employeeRepository;
-
-    public AttendanceController(AttendanceService attendanceService, EmployeeRepository employeeRepository) {
-        this.attendanceService = attendanceService;
-        this.employeeRepository = employeeRepository;
-    }
 
     // 社員を選んで打刻する簡易サンプル
     @GetMapping("/{employeeId}")
@@ -33,7 +31,7 @@ public class AttendanceController {
         List<Attendance> list = attendanceService.getAttendanceHistory(emp);
         model.addAttribute("employee", emp);
         model.addAttribute("attendances", list);
-        return "attendance_list";
+        return "attendance/attendance_list";
     }
 
     @PostMapping("/{employeeId}/clockin")
