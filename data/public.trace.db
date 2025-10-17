@@ -528,3 +528,417 @@ CREATE TABLE IF NOT EXISTS employee (
     create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) [42001-232]
+2025-10-17 20:00:37.711105+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: SQLステートメントに文法エラーがあります "ALTER TABLE employee add column paid[*],absenteeism,company_holiday,holiday"; 期待されるステートメント "data type"
+Syntax error in SQL statement "ALTER TABLE employee add column paid[*],absenteeism,company_holiday,holiday"; expected "data type"; SQL statement:
+ALTER TABLE employee add column paid,absenteeism,company_holiday,holiday [42001-232]
+2025-10-17 20:24:34.109388+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: SQLステートメントに文法エラーがあります "-- =========================\000d\000a-- 社員情報テーブル\000d\000a-- =========================\000d\000aCREATE TABLE IF NOT EXISTS employee (\000d\000a    employee_id VARCHAR(50) PRIMARY KEY,\000d\000a    employee_name VARCHAR(50),\000d\000a    password VARCHAR(100),\000d\000a    birthday DATE,\000d\000a    mail VARCHAR(50),\000d\000a    role VARCHAR(50),          -- ""USER"" / ""ADMIN""\000d\000a    work_start TIME,\000d\000a    work_end TIME,\000d\000a    enabled TINYINT[*](1) DEFAULT 1,\000d\000a    locked TINYINT(1) DEFAULT 0,\000d\000a    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\000d\000a    update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\000d\000a)"; 期待されるステートメント "ARRAY, INVISIBLE, VISIBLE, NOT NULL, DEFAULT, GENERATED, ON UPDATE, NOT NULL, DEFAULT ON NULL, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, COMMENT, PRIMARY KEY, UNIQUE, NOT NULL, CHECK, REFERENCES, ,, )"
+Syntax error in SQL statement "-- =========================\000d\000a-- 社員情報テーブル\000d\000a-- =========================\000d\000aCREATE TABLE IF NOT EXISTS employee (\000d\000a    employee_id VARCHAR(50) PRIMARY KEY,\000d\000a    employee_name VARCHAR(50),\000d\000a    password VARCHAR(100),\000d\000a    birthday DATE,\000d\000a    mail VARCHAR(50),\000d\000a    role VARCHAR(50),          -- ""USER"" / ""ADMIN""\000d\000a    work_start TIME,\000d\000a    work_end TIME,\000d\000a    enabled TINYINT[*](1) DEFAULT 1,\000d\000a    locked TINYINT(1) DEFAULT 0,\000d\000a    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\000d\000a    update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\000d\000a)"; expected "ARRAY, INVISIBLE, VISIBLE, NOT NULL, DEFAULT, GENERATED, ON UPDATE, NOT NULL, DEFAULT ON NULL, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, COMMENT, PRIMARY KEY, UNIQUE, NOT NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+-- =========================
+-- 社員情報テーブル
+-- =========================
+CREATE TABLE IF NOT EXISTS employee (
+    employee_id VARCHAR(50) PRIMARY KEY,
+    employee_name VARCHAR(50),
+    password VARCHAR(100),
+    birthday DATE,
+    mail VARCHAR(50),
+    role VARCHAR(50),          -- "USER" / "ADMIN"
+    work_start TIME,
+    work_end TIME,
+    enabled TINYINT(1) DEFAULT 1,
+    locked TINYINT(1) DEFAULT 0,
+    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+) [42001-232]
+2025-10-17 20:24:34.114666+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: テーブル "EMPLOYEE" が見つかりません
+Table "EMPLOYEE" not found; SQL statement:
+-- =========================
+-- 勤怠時間テーブル
+-- =========================
+CREATE TABLE IF NOT EXISTS attendance (
+    attendance_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    employee_id VARCHAR(50),
+    clock_in TIMESTAMP,
+    clock_out TIMESTAMP,
+    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIME [42102-232]
+2025-10-17 20:24:34.117016+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: テーブル "EMPLOYEE" が見つかりません
+Table "EMPLOYEE" not found; SQL statement:
+-- =========================
+-- 休暇情報テーブル
+-- =========================
+CREATE TABLE IF NOT EXISTS vacation ( 
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    employee_id VARCHAR(10) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    vacation_type INT NOT NULL,   -- 1=有給, 2=欠勤, 3=特別休暇, 4=祝日
+    status VARCHAR(20) DEFAULT 'APPLYING',  -- 申請中, 承認済, 否認など
+    reason VARCHAR(255),
+    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIME [42102-232]
+2025-10-17 20:24:34.119007+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: テーブル "VACATION" が見つかりません
+Table "VACATION" not found; SQL statement:
+CREATE INDEX idx_vacation_employee_date
+ON vacation (employee_id, start_date) [42102-232]
+2025-10-17 20:26:35.227220+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: 列 "CREATE_DATE" が見つかりません
+Column "CREATE_DATE" not found; SQL statement:
+INSERT INTO employee (
+    employee_id,
+    employee_name,
+    password,
+    birthday,
+    mail,
+    role,
+    work_start,
+    work_end,
+    enabled,
+    locked,
+    create_date,
+    update_date
+)
+VALUES
+('E001', '山田 太郎', 'password1', '1990-04-15', 'yamada@example.com', 'ADMIN', '09:00:00', '18:00:00', 1, 0, NOW(), NOW()),
+('E002', '佐藤 花子', 'password2', '1992-08-21', 'sato@example.com', 'USER',  '09:00:00', '17:30:00', 1, 0, NOW(), NOW()),
+('E003', '鈴木 一郎', 'password3', '1988-02-10', 'suzuki@example.com', 'USER', '08:30:00', '17:30:00', 1, 0, NOW(), NOW()),
+('E004', '田中 美咲', 'password4', '1995-12-05', 'tanaka@example.com', 'USER', '09:30:00', '18:30:00', 1, 0, NOW(), NOW()),
+('E005', '高橋 健',   'password5', '1985-06-22', 'takahashi@example.com', 'USER', '09:00:00', '18:00:00', 1, 0, NOW(), NOW()) [42122-232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.table.Table.getColumn(Table.java:786)
+	at org.h2.command.Parser.parseColumn(Parser.java:1171)
+	at org.h2.command.Parser.parseColumnList(Parser.java:1156)
+	at org.h2.command.Parser.parseInsert(Parser.java:1530)
+	at org.h2.command.Parser.parsePrepared(Parser.java:698)
+	at org.h2.command.Parser.parse(Parser.java:581)
+	at org.h2.command.Parser.parse(Parser.java:556)
+	at org.h2.command.Parser.prepareCommand(Parser.java:484)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:645)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:561)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1164)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:245)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:231)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1344)
+	at org.h2.server.web.WebApp.query(WebApp.java:1142)
+	at org.h2.server.web.WebApp.query(WebApp.java:1118)
+	at org.h2.server.web.WebApp.process(WebApp.java:244)
+	at org.h2.server.web.WebApp.processRequest(WebApp.java:176)
+	at org.h2.server.web.JakartaWebServlet.doGet(JakartaWebServlet.java:129)
+	at org.h2.server.web.JakartaWebServlet.doPost(JakartaWebServlet.java:166)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1776)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:975)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:493)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-17 20:27:33.278176+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: "CONSTRAINT_CA" が依存しているため、"EMPLOYEE" をドロップすることはできません
+Cannot drop "EMPLOYEE" because "CONSTRAINT_CA" depends on it; SQL statement:
+DROP TABLE attendance,employee [90107-232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:644)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.command.ddl.DropTable.prepareDrop(DropTable.java:108)
+	at org.h2.command.ddl.DropTable.update(DropTable.java:133)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:139)
+	at org.h2.command.Command.executeUpdate(Command.java:304)
+	at org.h2.command.Command.executeUpdate(Command.java:248)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:262)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:231)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1344)
+	at org.h2.server.web.WebApp.query(WebApp.java:1142)
+	at org.h2.server.web.WebApp.query(WebApp.java:1118)
+	at org.h2.server.web.WebApp.process(WebApp.java:244)
+	at org.h2.server.web.WebApp.processRequest(WebApp.java:176)
+	at org.h2.server.web.JakartaWebServlet.doGet(JakartaWebServlet.java:129)
+	at org.h2.server.web.JakartaWebServlet.doPost(JakartaWebServlet.java:166)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1776)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:975)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:493)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-17 20:28:06.820291+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: "CONSTRAINT_CA" が依存しているため、"EMPLOYEE" をドロップすることはできません
+Cannot drop "EMPLOYEE" because "CONSTRAINT_CA" depends on it; SQL statement:
+DROP TABLE employee [90107-232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:644)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.command.ddl.DropTable.prepareDrop(DropTable.java:108)
+	at org.h2.command.ddl.DropTable.update(DropTable.java:133)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:139)
+	at org.h2.command.Command.executeUpdate(Command.java:304)
+	at org.h2.command.Command.executeUpdate(Command.java:248)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:262)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:231)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1344)
+	at org.h2.server.web.WebApp.query(WebApp.java:1142)
+	at org.h2.server.web.WebApp.query(WebApp.java:1118)
+	at org.h2.server.web.WebApp.process(WebApp.java:244)
+	at org.h2.server.web.WebApp.processRequest(WebApp.java:176)
+	at org.h2.server.web.JakartaWebServlet.doGet(JakartaWebServlet.java:129)
+	at org.h2.server.web.JakartaWebServlet.doPost(JakartaWebServlet.java:166)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1776)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:975)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:493)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-17 20:29:09.557911+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: SQLステートメントに文法エラーがあります "-- =========================\000d\000a-- 社員情報テーブル\000d\000a-- =========================\000d\000aCREATE TABLE IF NOT EXISTS employee (\000d\000a    employee_id VARCHAR(50) PRIMARY KEY,\000d\000a    employee_name VARCHAR(50),\000d\000a    password VARCHAR(100),\000d\000a    birthday DATE,\000d\000a    mail VARCHAR(50),\000d\000a    role VARCHAR(50),          -- ""USER"" / ""ADMIN""\000d\000a    work_start TIME,\000d\000a    work_end TIME,\000d\000a    enabled TINYINT[*](1) DEFAULT 1,\000d\000a    locked TINYINT(1) DEFAULT 0,\000d\000a    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\000d\000a    update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\000d\000a)"; 期待されるステートメント "ARRAY, INVISIBLE, VISIBLE, NOT NULL, DEFAULT, GENERATED, ON UPDATE, NOT NULL, DEFAULT ON NULL, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, COMMENT, PRIMARY KEY, UNIQUE, NOT NULL, CHECK, REFERENCES, ,, )"
+Syntax error in SQL statement "-- =========================\000d\000a-- 社員情報テーブル\000d\000a-- =========================\000d\000aCREATE TABLE IF NOT EXISTS employee (\000d\000a    employee_id VARCHAR(50) PRIMARY KEY,\000d\000a    employee_name VARCHAR(50),\000d\000a    password VARCHAR(100),\000d\000a    birthday DATE,\000d\000a    mail VARCHAR(50),\000d\000a    role VARCHAR(50),          -- ""USER"" / ""ADMIN""\000d\000a    work_start TIME,\000d\000a    work_end TIME,\000d\000a    enabled TINYINT[*](1) DEFAULT 1,\000d\000a    locked TINYINT(1) DEFAULT 0,\000d\000a    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\000d\000a    update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\000d\000a)"; expected "ARRAY, INVISIBLE, VISIBLE, NOT NULL, DEFAULT, GENERATED, ON UPDATE, NOT NULL, DEFAULT ON NULL, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, COMMENT, PRIMARY KEY, UNIQUE, NOT NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+-- =========================
+-- 社員情報テーブル
+-- =========================
+CREATE TABLE IF NOT EXISTS employee (
+    employee_id VARCHAR(50) PRIMARY KEY,
+    employee_name VARCHAR(50),
+    password VARCHAR(100),
+    birthday DATE,
+    mail VARCHAR(50),
+    role VARCHAR(50),          -- "USER" / "ADMIN"
+    work_start TIME,
+    work_end TIME,
+    enabled TINYINT(1) DEFAULT 1,
+    locked TINYINT(1) DEFAULT 0,
+    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+) [42001-232]
+2025-10-17 20:29:09.559968+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: テーブル "EMPLOYEE" が見つかりません
+Table "EMPLOYEE" not found; SQL statement:
+-- =========================
+-- 勤怠時間テーブル
+-- =========================
+CREATE TABLE IF NOT EXISTS attendance (
+    attendance_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    employee_id VARCHAR(50),
+    clock_in TIMESTAMP,
+    clock_out TIMESTAMP,
+    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIME [42102-232]
+2025-10-17 20:29:09.562286+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: テーブル "EMPLOYEE" が見つかりません
+Table "EMPLOYEE" not found; SQL statement:
+-- =========================
+-- 休暇情報テーブル
+-- =========================
+CREATE TABLE IF NOT EXISTS vacation ( 
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    employee_id VARCHAR(10) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    vacation_type INT NOT NULL,   -- 1=有給, 2=欠勤, 3=特別休暇, 4=祝日
+    status VARCHAR(20) DEFAULT 'APPLYING',  -- 申請中, 承認済, 否認など
+    reason VARCHAR(255),
+    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIME [42102-232]
+2025-10-17 20:29:09.562286+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: テーブル "VACATION" が見つかりません
+Table "VACATION" not found; SQL statement:
+CREATE INDEX idx_vacation_employee_date
+ON vacation (employee_id, start_date) [42102-232]
+2025-10-17 20:30:24.673220+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: SQLステートメントに文法エラーがあります "-- =========================\000d\000a-- 社員情報テーブル\000d\000a-- =========================\000d\000aCREATE TABLE IF NOT EXISTS employee (\000d\000a    employee_id VARCHAR(50) PRIMARY KEY,\000d\000a    employee_name VARCHAR(50),\000d\000a    password VARCHAR(100),\000d\000a    birthday DATE,\000d\000a    mail VARCHAR(50),\000d\000a    role VARCHAR(50),          -- ""USER"" / ""ADMIN""\000d\000a    work_start TIME,\000d\000a    work_end TIME,\000d\000a    enabled TINYINT[*](1) DEFAULT 1,\000d\000a    locked TINYINT(1) DEFAULT 0,\000d\000a    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\000d\000a    update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\000d\000a)"; 期待されるステートメント "ARRAY, INVISIBLE, VISIBLE, NOT NULL, DEFAULT, GENERATED, ON UPDATE, NOT NULL, DEFAULT ON NULL, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, COMMENT, PRIMARY KEY, UNIQUE, NOT NULL, CHECK, REFERENCES, ,, )"
+Syntax error in SQL statement "-- =========================\000d\000a-- 社員情報テーブル\000d\000a-- =========================\000d\000aCREATE TABLE IF NOT EXISTS employee (\000d\000a    employee_id VARCHAR(50) PRIMARY KEY,\000d\000a    employee_name VARCHAR(50),\000d\000a    password VARCHAR(100),\000d\000a    birthday DATE,\000d\000a    mail VARCHAR(50),\000d\000a    role VARCHAR(50),          -- ""USER"" / ""ADMIN""\000d\000a    work_start TIME,\000d\000a    work_end TIME,\000d\000a    enabled TINYINT[*](1) DEFAULT 1,\000d\000a    locked TINYINT(1) DEFAULT 0,\000d\000a    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\000d\000a    update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\000d\000a)"; expected "ARRAY, INVISIBLE, VISIBLE, NOT NULL, DEFAULT, GENERATED, ON UPDATE, NOT NULL, DEFAULT ON NULL, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, COMMENT, PRIMARY KEY, UNIQUE, NOT NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+-- =========================
+-- 社員情報テーブル
+-- =========================
+CREATE TABLE IF NOT EXISTS employee (
+    employee_id VARCHAR(50) PRIMARY KEY,
+    employee_name VARCHAR(50),
+    password VARCHAR(100),
+    birthday DATE,
+    mail VARCHAR(50),
+    role VARCHAR(50),          -- "USER" / "ADMIN"
+    work_start TIME,
+    work_end TIME,
+    enabled TINYINT(1) DEFAULT 1,
+    locked TINYINT(1) DEFAULT 0,
+    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) [42001-232]
+2025-10-17 20:30:24.675220+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: テーブル "EMPLOYEE" が見つかりません
+Table "EMPLOYEE" not found; SQL statement:
+-- =========================
+-- 勤怠時間テーブル
+-- =========================
+CREATE TABLE IF NOT EXISTS attendance (
+    attendance_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    employee_id VARCHAR(50),
+    clock_in TIMESTAMP,
+    clock_out TIMESTAMP,
+    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIME [42102-232]
+2025-10-17 20:30:24.677219+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: テーブル "EMPLOYEE" が見つかりません
+Table "EMPLOYEE" not found; SQL statement:
+-- =========================
+-- 休暇情報テーブル
+-- =========================
+CREATE TABLE IF NOT EXISTS vacation ( 
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    employee_id VARCHAR(10) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    vacation_type INT NOT NULL,   -- 1=有給, 2=欠勤, 3=特別休暇, 4=祝日
+    status VARCHAR(20) DEFAULT 'APPLYING',  -- 申請中, 承認済, 否認など
+    reason VARCHAR(255),
+    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIME [42102-232]
+2025-10-17 20:30:24.678219+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: テーブル "VACATION" が見つかりません
+Table "VACATION" not found; SQL statement:
+CREATE INDEX idx_vacation_employee_date
+ON vacation (employee_id, start_date) [42102-232]
+2025-10-17 20:34:14.607518+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: SQLステートメントに文法エラーがあります "-- =========================\000d\000a-- 社員情報テーブル\000d\000a-- =========================\000d\000aCREATE TABLE IF NOT EXISTS employee (\000d\000a    employee_id VARCHAR(50) PRIMARY KEY,\000d\000a    employee_name VARCHAR(50),\000d\000a    password VARCHAR(100),\000d\000a    birthday DATE,\000d\000a    mail VARCHAR(50),\000d\000a    role VARCHAR(50),          -- ""USER"" / ""ADMIN""\000d\000a    work_start TIME,\000d\000a    work_end TIME,\000d\000a    enabled TINYINT[*](1) DEFAULT 1,\000d\000a    locked TINYINT(1) DEFAULT 0,\000d\000a    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\000d\000a    update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP\000d\000a)"; 期待されるステートメント "ARRAY, INVISIBLE, VISIBLE, NOT NULL, DEFAULT, GENERATED, ON UPDATE, NOT NULL, DEFAULT ON NULL, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, COMMENT, PRIMARY KEY, UNIQUE, NOT NULL, CHECK, REFERENCES, ,, )"
+Syntax error in SQL statement "-- =========================\000d\000a-- 社員情報テーブル\000d\000a-- =========================\000d\000aCREATE TABLE IF NOT EXISTS employee (\000d\000a    employee_id VARCHAR(50) PRIMARY KEY,\000d\000a    employee_name VARCHAR(50),\000d\000a    password VARCHAR(100),\000d\000a    birthday DATE,\000d\000a    mail VARCHAR(50),\000d\000a    role VARCHAR(50),          -- ""USER"" / ""ADMIN""\000d\000a    work_start TIME,\000d\000a    work_end TIME,\000d\000a    enabled TINYINT[*](1) DEFAULT 1,\000d\000a    locked TINYINT(1) DEFAULT 0,\000d\000a    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\000d\000a    update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP\000d\000a)"; expected "ARRAY, INVISIBLE, VISIBLE, NOT NULL, DEFAULT, GENERATED, ON UPDATE, NOT NULL, DEFAULT ON NULL, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, COMMENT, PRIMARY KEY, UNIQUE, NOT NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+-- =========================
+-- 社員情報テーブル
+-- =========================
+CREATE TABLE IF NOT EXISTS employee (
+    employee_id VARCHAR(50) PRIMARY KEY,
+    employee_name VARCHAR(50),
+    password VARCHAR(100),
+    birthday DATE,
+    mail VARCHAR(50),
+    role VARCHAR(50),          -- "USER" / "ADMIN"
+    work_start TIME,
+    work_end TIME,
+    enabled TINYINT(1) DEFAULT 1,
+    locked TINYINT(1) DEFAULT 0,
+    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) [42001-232]
+2025-10-17 20:34:14.609515+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: テーブル "EMPLOYEE" が見つかりません
+Table "EMPLOYEE" not found; SQL statement:
+-- =========================
+-- 勤怠時間テーブル
+-- =========================
+CREATE TABLE IF NOT EXISTS attendance (
+    attendance_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    employee_id VARCHAR(50),
+    clock_in TIMESTAMP,
+    clock_out TIMESTAMP,
+    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_date TIMESTAMP DEFAULT CURRENT_TIME [42102-232]
+2025-10-17 20:34:14.611586+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: テーブル "EMPLOYEE" が見つかりません
+Table "EMPLOYEE" not found; SQL statement:
+-- =========================
+-- 休暇情報テーブル
+-- =========================
+CREATE TABLE IF NOT EXISTS vacation ( 
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    employee_id VARCHAR(10) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    vacation_type INT NOT NULL,   -- 1=有給, 2=欠勤, 3=特別休暇, 4=祝日
+    status VARCHAR(20) DEFAULT 'APPLYING',  -- 申請中, 承認済, 否認など
+    reason VARCHAR(255),
+    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_date TIMESTAMP DEFAULT CURRENT_TIME [42102-232]
+2025-10-17 20:34:14.612867+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: テーブル "VACATION" が見つかりません
+Table "VACATION" not found; SQL statement:
+CREATE INDEX idx_vacation_employee_date
+ON vacation (employee_id, start_date) [42102-232]
