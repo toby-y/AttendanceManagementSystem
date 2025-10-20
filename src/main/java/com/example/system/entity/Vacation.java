@@ -45,17 +45,38 @@ public class Vacation {
 	private Employee employee;
 
 	public enum VacationType {
-		PAID,         // 有給
-		ABSENTEEISM,  // 欠勤
-		SPECIAL,      // 特別休暇
-		HOLIDAY       // 祝日
+	    PAID("有給"),
+	    ABSENTEEISM("欠勤"),
+	    SPECIAL("特別休暇"),
+	    HOLIDAY("祝日");
+
+	    private final String label;
+
+	    VacationType(String label) {
+	        this.label = label;
+	    }
+
+	    public String getLabel() {
+	        return label;
+	    }
 	}
-	
+
 	public enum Status {
-		APPLYING,     // 申請中
-		APPROVED,     // 承認
-		REJECTED      // 棄却
+	    APPLYING("申請中"),
+	    APPROVED("承認済み"),
+	    REJECTED("棄却");
+
+	    private final String label;
+
+	    Status(String label) {
+	        this.label = label;
+	    }
+
+	    public String getLabel() {
+	        return label;
+	    }
 	}
+
 	
 	@PrePersist
 	public void prePersist() {

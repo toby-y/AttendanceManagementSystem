@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>休暇申請</title>
+</head>
+<body>
+    <h2>休暇申請フォーム</h2>
+
+    <form id="vacation-request-form"
+          th:action="@{/vacation/request/submit}"
+          method="post"
+          th:object="${vacationRequestForm}">
+
+        <div>
+            <label for="startDate">開始日：</label>
+            <input type="date" id="startDate" th:field="*{startDate}" required>
+        </div>
+
+        <div>
+            <label for="endDate">終了日：</label>
+            <input type="date" id="endDate" th:field="*{endDate}" required>
+        </div>
+
+        <div>
+            <label for="vacationType">種類：</label>
+            <select id="vacationType" th:field="*{vacationType}">
+                <option value="PAID">有給休暇</option>
+                <option value="SPECIAL">特別休暇</option>
+                <option value="HOLIDAY">休日</option>
+                <option value="ABSENTEEISM">欠勤</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="reason">理由：</label>
+            <input type="text" id="reason" th:field="*{reason}">
+        </div>
+
+        <div>
+            <button type="submit">申請する</button>
+        </div>
+    </form>
+
+    <!-- メッセージ表示用 -->
+    <div th:if="${error}" th:text="${error}" style="color:red;"></div>
+    <div th:if="${message}" th:text="${message}" style="color:green;"></div>
+</body>
+</html>
