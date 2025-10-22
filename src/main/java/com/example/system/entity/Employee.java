@@ -32,9 +32,12 @@ public class Employee {
     private LocalTime workEnd;
     private boolean enabled = true;
     private boolean locked = false;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private LocalDateTime createDate;
+    private LocalDateTime updateDate;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<Attendance> attendances;
+    
+    @OneToMany(mappedBy = "superior")
+    private List<EmployeeSuperior> subordinates;
 }

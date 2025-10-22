@@ -12,6 +12,8 @@
             <th>種類</th>
 			<th>理由</th>
             <th>ステータス</th>
+            <th>承認・棄却者</th>
+            <th>承認・棄却日時</th>
         </tr>
         <tr th:each="v : ${vacations}">
             <td th:text="${v.startDate}"></td>
@@ -19,6 +21,8 @@
             <td th:text="${v.vacationType.label}"></td>
 			<td th:text="${v.reason}"></td>
             <td th:text="${v.status.label}"></td>
+            <td th:text="${v.approver != null ? v.approver.employeeName : ''}"></td>
+            <td th:text="${v.approveDate}"></td>
         </tr>
     </table>
 </body>

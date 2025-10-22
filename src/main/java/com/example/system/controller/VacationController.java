@@ -15,10 +15,12 @@ import com.example.system.repository.EmployeeRepository;
 import com.example.system.service.VacationService;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/vacation")
 @AllArgsConstructor
+@Slf4j
 public class VacationController {
 
 	private final VacationService vacationService;
@@ -30,13 +32,14 @@ public class VacationController {
 		model.addAttribute("employeeId",employeeId);
 		model.addAttribute("employeeName", emp.getEmployeeName());
 		model.addAttribute("vacations", vacationService.employeeVacationList(employeeId));
+        log.info(emp.toString());
 		return "vacation/vacation_list"; 
 	}
 	
 	@GetMapping("/request")
 	public String vacationRequestForm(Model model) {
 		model.addAttribute("vacationRequestForm", new VacationRequestForm());
-		return "vacation/vacation_request"; // ← 画面表示用（GET）
+		return "vacation/vacation_request";
 	}
 	
 	@PostMapping("/request/submit")

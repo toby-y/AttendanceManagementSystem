@@ -43,6 +43,12 @@ public class Vacation {
 	@ToString.Exclude
 	@EqualsAndHashCode.Exclude
 	private Employee employee;
+	
+	@ManyToOne
+	@JoinColumn(name = "approver_id")
+	private Employee approver;
+
+	private LocalDateTime approveDate;
 
 	public enum VacationType {
 	    PAID("有給"),

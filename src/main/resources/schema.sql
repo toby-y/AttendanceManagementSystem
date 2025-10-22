@@ -36,13 +36,30 @@ CREATE TABLE IF NOT EXISTS vacation (
     employee_id VARCHAR(50) NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
-    vacation_type INT NOT NULL,
+    vacation_type VARCHAR(20) NOT NULL,
     status VARCHAR(20) DEFAULT 'APPLYING',
     reason VARCHAR(255),
+    approver_id VARCHAR(50),
+    approve_date DATE,
     create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (employee_id) REFERENCES employee(employee_id)
+    FOREIGN KEY (employee_id) REFERENCES employee(employee_id),
+    FOREIGN KEY (approver_id) REFERENCES employee(employee_id)
 );
 
 CREATE INDEX idx_vacation_employee_date
 ON vacation (employee_id, start_date);
+
+-- =========================
+-- 管理者テーブル
+-- =========================
+CREATE TABLE IF NOT EXISTS employee_superior (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    employee_id VARCHAR(50) NOT NULL,
+    superior_id VARCHAR(50) NOT NULL,
+    create_date DATE,
+    update_date DATE,
+    CONSTRAINT fk_employee FOREIGN KEY (employee_id) REFERENCES employee(employee_id),
+    CONSTRAINT fk_superior FOREIGN KEY (superior_id) REFERENCES employee(employee_id)
+);
+
