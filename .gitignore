@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# 機密ファイルを除外
+application.properties
+application.yml
+application-prod.properties
+.env

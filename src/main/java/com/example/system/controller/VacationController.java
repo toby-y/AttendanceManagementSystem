@@ -32,7 +32,7 @@ public class VacationController {
 		model.addAttribute("employeeId",employeeId);
 		model.addAttribute("employeeName", emp.getEmployeeName());
 		model.addAttribute("vacations", vacationService.employeeVacationList(employeeId));
-        log.info(emp.toString());
+
 		return "vacation/vacation_list"; 
 	}
 	
