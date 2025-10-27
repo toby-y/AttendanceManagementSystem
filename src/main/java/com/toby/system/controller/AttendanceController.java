@@ -1,4 +1,4 @@
-package com.example.system.controller;
+package com.toby.system.controller;
 
 import java.util.List;
 
@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.system.entity.Attendance;
-import com.example.system.entity.Employee;
-import com.example.system.repository.EmployeeRepository;
-import com.example.system.service.AttendanceService;
+import com.toby.system.entity.Attendance;
+import com.toby.system.entity.Employee;
+import com.toby.system.repository.EmployeeRepository;
+import com.toby.system.service.AttendanceService;
 
 import lombok.AllArgsConstructor;
 

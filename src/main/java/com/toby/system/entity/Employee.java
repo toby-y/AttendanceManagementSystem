@@ -1,4 +1,4 @@
-package com.example.system.entity;
+package com.toby.system.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

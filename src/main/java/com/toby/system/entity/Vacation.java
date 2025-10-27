@@ -1,4 +1,4 @@
-package com.example.system.entity;
+package com.toby.system.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -35,6 +35,7 @@ public class Vacation {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	private String reason;
+	
 	private LocalDateTime createDate;
 	private LocalDateTime updateDate;
 
@@ -45,11 +46,12 @@ public class Vacation {
 	private Employee employee;
 	
 	@ManyToOne
-	@JoinColumn(name = "approver_id")
-	private Employee approver;
+	@JoinColumn(name = "decided_by")
+	private Employee decidedBy;
+	private String rejectedReason;
+	private LocalDateTime decidedDate;
 
-	private LocalDateTime approveDate;
-
+	
 	public enum VacationType {
 	    PAID("有給"),
 	    ABSENTEEISM("欠勤"),

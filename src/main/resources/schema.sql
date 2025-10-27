@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS vacation (
     reason VARCHAR(255),
     approver_id VARCHAR(50),
     approve_date DATE,
+    rejected_reason VARCHAR(255),
     create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (employee_id) REFERENCES employee(employee_id),
@@ -57,9 +58,20 @@ CREATE TABLE IF NOT EXISTS employee_superior (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     employee_id VARCHAR(50) NOT NULL,
     superior_id VARCHAR(50) NOT NULL,
-    create_date DATE,
-    update_date DATE,
+    create_date DATETIME,
+    update_date DATETIME,
     CONSTRAINT fk_employee FOREIGN KEY (employee_id) REFERENCES employee(employee_id),
     CONSTRAINT fk_superior FOREIGN KEY (superior_id) REFERENCES employee(employee_id)
 );
 
+-- =========================
+-- 祝日、社休テーブル
+-- =========================
+CREATE TABLE IF NOT EXISTS holiday_calendar (
+	id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    holiday_date DATE NOT NULL,
+    holiday_type VARCHAR(20) NOT NULL,
+    description VARCHAR(50),
+    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

@@ -1,4 +1,4 @@
-package com.example.system.entity;
+package com.toby.system.entity;
 
 import java.time.LocalDateTime;
 
@@ -25,8 +25,8 @@ public class Attendance {
 
     private LocalDateTime clockIn;
     private LocalDateTime clockOut;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private LocalDateTime create_date;
+    private LocalDateTime update_date;
 
     @ManyToOne
     @JoinColumn(name = "employee_id")

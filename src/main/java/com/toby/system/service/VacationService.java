@@ -1,4 +1,4 @@
-package com.example.system.service;
+package com.toby.system.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.system.dto.VacationDTO;
-import com.example.system.entity.Vacation;
-import com.example.system.repository.VacationRepository;
+import com.toby.system.dto.VacationDTO;
+import com.toby.system.entity.Vacation;
+import com.toby.system.repository.VacationRepository;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,10 +30,13 @@ public class VacationService{
 			vacationDTO.setVacationType(vacation.getVacationType().getLabel());
 			vacationDTO.setReason(vacation.getReason());
 			vacationDTO.setStatus(vacation.getStatus().getLabel());
-			vacationDTO.setApprover(vacation.getApprover() != null
-					? vacation.getApprover().getEmployeeName()
-					: "");
-			vacationDTO.setApproveDate(vacation.getApproveDate());
+			if(vacation.getDecidedBy() != null) {
+				vacationDTO.setDecidedBy(vacation.getDecidedBy().getEmployeeName());
+			} else {
+				vacationDTO.setDecidedBy("");
+			}
+			vacationDTO.setDecidedDate(vacation.getDecidedDate());
+			vacationDTO.setRejectedReason(vacation.getRejectedReason());
 			vacationDTOList.add(vacationDTO);
 		}
 		return vacationDTOList;

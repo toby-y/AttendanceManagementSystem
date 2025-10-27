@@ -1,13 +1,13 @@
-package com.example.system.service;
+package com.toby.system.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.system.entity.Attendance;
-import com.example.system.entity.Employee;
-import com.example.system.repository.AttendanceRepository;
+import com.toby.system.entity.Attendance;
+import com.toby.system.entity.Employee;
+import com.toby.system.repository.AttendanceRepository;
 
 import lombok.AllArgsConstructor;
 
@@ -22,8 +22,8 @@ public class AttendanceService {
         Attendance attendance = new Attendance();
         attendance.setEmployee(employee);
         attendance.setClockIn(LocalDateTime.now());
-        attendance.setCreatedAt(LocalDateTime.now());
-        attendance.setUpdatedAt(LocalDateTime.now());
+        attendance.setCreate_date(LocalDateTime.now());
+        attendance.setUpdate_date(LocalDateTime.now());
         return attendanceRepository.save(attendance);
     }
 
@@ -37,7 +37,7 @@ public class AttendanceService {
         if (latest.getClockOut() != null) return null; // すでに退勤済み
 
         latest.setClockOut(LocalDateTime.now());
-        latest.setUpdatedAt(LocalDateTime.now());
+        latest.setUpdate_date(LocalDateTime.now());
         return attendanceRepository.save(latest);
     }
 

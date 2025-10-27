@@ -1,4 +1,4 @@
-package com.example.system.controller;
+package com.toby.system.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.system.entity.Employee;
-import com.example.system.entity.Vacation;
-import com.example.system.form.VacationRequestForm;
-import com.example.system.repository.EmployeeRepository;
-import com.example.system.service.VacationService;
+import com.toby.system.entity.Employee;
+import com.toby.system.entity.Vacation;
+import com.toby.system.form.VacationRequestForm;
+import com.toby.system.repository.EmployeeRepository;
+import com.toby.system.service.VacationService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

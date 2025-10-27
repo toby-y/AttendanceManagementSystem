@@ -1,11 +1,11 @@
-package com.example.system.form;
+package com.toby.system.form;
 
 import java.time.LocalDate;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-import com.example.system.entity.Vacation.VacationType;
+import com.toby.system.entity.Vacation.VacationType;
 
 import lombok.Data;
 

@@ -1,10 +1,10 @@
-package com.example.system.repository;
+package com.toby.system.repository;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.system.entity.EmployeeSuperior;
+import com.toby.system.entity.EmployeeSuperior;
 
 public interface EmployeeSuperiorRepository extends JpaRepository<EmployeeSuperior,Long>{
 	

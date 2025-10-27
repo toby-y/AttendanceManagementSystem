@@ -1,4 +1,4 @@
-package com.example.system.dto;
+package com.toby.system.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,6 +12,7 @@ public class VacationDTO {
 	private String vacationType;
 	private String reason;
 	private String status;
-	private String approver;
-	private LocalDateTime approveDate;
+	private String decidedBy;
+	private LocalDateTime decidedDate;
+	private String rejectedReason;
 }
