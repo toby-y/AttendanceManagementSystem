@@ -12,15 +12,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
+
+import com.toby.system.common.AuditableEntity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-@Entity
 @Data
-public class Vacation {
+@EqualsAndHashCode(callSuper = false)
+@Entity
+public class Vacation extends AuditableEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -87,6 +89,7 @@ public class Vacation {
 
 	
 	@PrePersist
+	@Override
 	public void prePersist() {
 	    if (status == null) {
 	        status = Status.APPLYING;
@@ -94,10 +97,4 @@ public class Vacation {
 	    createDate = LocalDateTime.now();
 	    updateDate = LocalDateTime.now();
 	}
-
-	@PreUpdate
-	public void preUpdate() {
-	    updateDate = LocalDateTime.now();
-	}
-
 }

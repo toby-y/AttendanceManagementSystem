@@ -1,4 +1,4 @@
-package com.toby.system.dto;
+package com.toby.system.dto.vacation;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

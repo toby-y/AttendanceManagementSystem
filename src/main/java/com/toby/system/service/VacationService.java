@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.toby.system.dto.VacationDTO;
+import com.toby.system.dto.vacation.VacationDTO;
 import com.toby.system.entity.Vacation;
 import com.toby.system.repository.VacationRepository;
 
