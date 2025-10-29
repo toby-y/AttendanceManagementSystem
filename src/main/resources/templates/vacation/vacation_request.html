@@ -4,28 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>休暇申請</title>
+    <script src="/js/vacation-request.js" defer></script>
 </head>
 <body>
     <h2>休暇申請フォーム</h2>
 
     <form id="vacation-request-form"
-          th:action="@{/vacation/request/submit}"
           method="post"
           th:object="${vacationRequestForm}">
 
         <div>
             <label for="startDate">開始日：</label>
-            <input type="date" id="startDate" th:field="*{startDate}" required>
+            <input type="date" id="startDate" name="startDate" required>
         </div>
 
         <div>
             <label for="endDate">終了日：</label>
-            <input type="date" id="endDate" th:field="*{endDate}" required>
+            <input type="date" id="endDate" name="endDate" required>
         </div>
 
         <div>
             <label for="vacationType">種類：</label>
-            <select id="vacationType" th:field="*{vacationType}">
+            <select id="vacationType" name="vacationType" required>
                 <option value="PAID">有給休暇</option>
                 <option value="SPECIAL">特別休暇</option>
                 <option value="HOLIDAY">休日</option>
@@ -35,7 +35,7 @@
 
         <div>
             <label for="reason">理由：</label>
-            <input type="text" id="reason" th:field="*{reason}">
+            <input type="text" id="reason" name="reason" required>
         </div>
 
         <div>
@@ -44,7 +44,6 @@
     </form>
 
     <!-- メッセージ表示用 -->
-    <div th:if="${error}" th:text="${error}" style="color:red;"></div>
-    <div th:if="${message}" th:text="${message}" style="color:green;"></div>
+    <div id="message" style="margin-top: 10px; color: red;"></div>
 </body>
 </html>

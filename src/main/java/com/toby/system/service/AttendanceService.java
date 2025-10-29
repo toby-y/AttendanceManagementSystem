@@ -22,8 +22,8 @@ public class AttendanceService {
         Attendance attendance = new Attendance();
         attendance.setEmployee(employee);
         attendance.setClockIn(LocalDateTime.now());
-        attendance.setCreate_date(LocalDateTime.now());
-        attendance.setUpdate_date(LocalDateTime.now());
+        attendance.setCreateDate(LocalDateTime.now());
+        attendance.setUpdateDate(LocalDateTime.now());
         return attendanceRepository.save(attendance);
     }
 
@@ -37,7 +37,7 @@ public class AttendanceService {
         if (latest.getClockOut() != null) return null; // すでに退勤済み
 
         latest.setClockOut(LocalDateTime.now());
-        latest.setUpdate_date(LocalDateTime.now());
+        latest.setUpdateDate(LocalDateTime.now());
         return attendanceRepository.save(latest);
     }
 

@@ -29,8 +29,6 @@ public class Attendance extends AuditableEntity{
 
     private LocalDateTime clockIn;
     private LocalDateTime clockOut;
-    private LocalDateTime create_date;
-    private LocalDateTime update_date;
 
     @ManyToOne
     @JoinColumn(name = "employee_id")

@@ -7,7 +7,10 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.toby.system.dto.vacation.VacationDTO;
+import com.toby.system.dto.vacation.VacationRequestDTO;
+import com.toby.system.entity.Employee;
 import com.toby.system.entity.Vacation;
+import com.toby.system.repository.EmployeeRepository;
 import com.toby.system.repository.VacationRepository;
 
 import lombok.AllArgsConstructor;
@@ -19,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class VacationService{
 
 	private final VacationRepository vacationRepository;
+	private final EmployeeRepository employeeRepository;
 	
 	public List<VacationDTO> employeeVacationList(String employeeId){
 		List<Vacation> vacationList = vacationRepository.findByEmployee_EmployeeId(employeeId);
@@ -43,7 +47,40 @@ public class VacationService{
 	}
 	
 	public void vacationRequest(Vacation vacation) {
+		validateVacation(vacation);
+		vacationRepository.save(vacation);
+	}
+	
+	public VacationDTO vacationRequest(VacationRequestDTO dto) {
+		log.info("休暇申請受信:{}",dto);
 		
+		// DTOをEntityに変換
+		Vacation vacation = new Vacation();
+		vacation.setStartDate(dto.getStartDate());
+		vacation.setEndDate(dto.getEndDate());
+		vacation.setVacationType(dto.getVacationType());
+		vacation.setReason(dto.getReason());
+		
+		Employee employee = employeeRepository.findById(dto.getEmployeeId())
+				.orElseThrow(() -> new IllegalArgumentException("社員が見つかりません"));
+		
+		vacation.setEmployee(employee);
+		
+		validateVacation(vacation);
+		
+	    Vacation saved = vacationRepository.save(vacation);
+
+	    // 保存結果をDTOに変換して返却
+	    VacationDTO vacationDTO = new VacationDTO();
+	    vacationDTO.setStartDate(saved.getStartDate());
+	    vacationDTO.setEndDate(saved.getEndDate());
+	    vacationDTO.setVacationType(saved.getVacationType().getLabel());
+	    vacationDTO.setReason(saved.getReason());
+	    vacationDTO.setStatus(saved.getStatus().getLabel());
+	    return vacationDTO;
+	}
+	
+	private void validateVacation(Vacation vacation) {
 		LocalDate startDate = vacation.getStartDate();
 		LocalDate endDate = vacation.getEndDate();
 		
@@ -72,7 +109,5 @@ public class VacationService{
 		        throw new IllegalArgumentException("申請失敗:日付重複");
 		    }
 		}
-		vacationRepository.save(vacation);
 	}
-
 }
