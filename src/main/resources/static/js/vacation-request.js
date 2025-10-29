@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
             vacationType: document.getElementById("vacationType").value,
             reason: document.getElementById("reason").value   
         };
-        fetch(`/api/vacations/request`,{
+        fetch(`/api/vacation/request`,{
             method: "POST",
             headers: { "Content-Type": "application/json"},
             body: JSON.stringify(requestData)
@@ -24,11 +24,11 @@ document.addEventListener("DOMContentLoaded", function () {
             return response.json();
         })
         .then(savedVacation => {
-            messageDiv.style.color = "green";
-            messageDiv.textContent = "休暇申請が完了しました。";
+            // 申請完了の通知
+            alert("休暇申請が完了しました");
 
-            // 入力フォームをリセット
-            form.reset();
+            // 一覧画面にリダイレクト
+            window.location.href = `/vacation/employee/${employeeId}`;
         })
         .catch(err => {
             messageDiv.style.color = "red";

@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 public class VacationDTO {
 	private String employeeId;
+	private String employeeName;
 	private LocalDate startDate;
 	private LocalDate endDate;
 	private String vacationType;

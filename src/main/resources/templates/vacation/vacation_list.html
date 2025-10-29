@@ -4,7 +4,12 @@
     <title>休暇一覧</title>
 </head>
 <body>
-    <h2 th:text="'社員ID: ' + ${employeeId} + ' ' + ${employeeName}"></h2>
+    <h2 id="employeeInfo"></h2>
+    <div style="margin-bottom: 10px;">
+        <a href="/vacation/request">
+            <button type="button">新規休暇申請</button>
+        </a>
+    </div>
     <table border="1">
         <thead>
             <tr>
@@ -19,7 +24,7 @@
             </tr>
         </thead>
         <tbody id="vacationTableBody">
-            <!--JSで作成-->>
+            <!--JSで作成-->
         </tbody>
     </table>
     <script src="/js/vacation-list.js"></script>

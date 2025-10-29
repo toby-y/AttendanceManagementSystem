@@ -29,6 +29,8 @@ public class VacationService{
 		List<VacationDTO> vacationDTOList = new ArrayList<>();
 		for(Vacation vacation : vacationList) {
 			VacationDTO vacationDTO = new VacationDTO();
+			vacationDTO.setEmployeeId(employeeId);
+			vacationDTO.setEmployeeName(vacation.getEmployee().getEmployeeName());
 			vacationDTO.setStartDate(vacation.getStartDate());
 			vacationDTO.setEndDate(vacation.getEndDate());
 			vacationDTO.setVacationType(vacation.getVacationType().getLabel());
