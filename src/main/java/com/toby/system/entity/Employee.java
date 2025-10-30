@@ -30,6 +30,7 @@ public class Employee extends AuditableEntity{
     private String employeeName;
     private String password;
     private LocalDate birthday;
+    private LocalDate hireDate;
     private String mail;
     private String role; // USER / ADMIN
     private LocalTime workStart;

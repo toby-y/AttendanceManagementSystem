@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.toby.system.dto.vacation.VacationDTO;
 import com.toby.system.dto.vacation.VacationRequestDTO;
+import com.toby.system.dto.vacation.VacationSummaryDTO;
 import com.toby.system.service.VacationService;
 
 import lombok.AllArgsConstructor;
@@ -29,6 +30,12 @@ public class VacationRestController {
 	public ResponseEntity<List<VacationDTO>> getEmployeeVacations(@PathVariable String employeeId){
 		List<VacationDTO> vacations = vacationService.employeeVacationList(employeeId);
 		return ResponseEntity.ok(vacations);
+	}
+	
+	@GetMapping("/summary/{employeeId}")
+	public ResponseEntity<VacationSummaryDTO> getVacationSummary(@PathVariable String employeeId){
+		VacationSummaryDTO vacationSummary = vacationService.getVacationSummary(employeeId);
+		return ResponseEntity.ok(vacationSummary);
 	}
 	
 	@PostMapping("/request")

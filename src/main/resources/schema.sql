@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS employee (
     employee_id VARCHAR(50) PRIMARY KEY,
     employee_name VARCHAR(50),
     password VARCHAR(100),
+    hire_date DATE,
     birthday DATE,
     mail VARCHAR(50),
     role VARCHAR(50),

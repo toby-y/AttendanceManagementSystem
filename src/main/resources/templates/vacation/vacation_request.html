@@ -4,23 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>休暇申請</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="/js/vacation-request.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
+    <!-- FlatpickrのCSS -->
 </head>
 <body>
     <h2>休暇申請フォーム</h2>
-
+    <table border="1">
+        <thead>
+            <tr>
+                <th>総有給日数</th>
+                <th>取得数</th>
+                <th>残数</th>
+            </tr>
+        </thead>
+        <tbody id="vacationSummary">
+        </tbody>
+    </table>
     <form id="vacation-request-form"
           method="post"
           th:object="${vacationRequestForm}">
 
         <div>
             <label for="startDate">開始日：</label>
-            <input type="date" id="startDate" name="startDate" required>
+            <input type="text" id="startDate" name="startDate" placeholder="クリックして日付を選択" required>
         </div>
 
         <div>
             <label for="endDate">終了日：</label>
-            <input type="date" id="endDate" name="endDate" required>
+            <input type="text" id="endDate" name="endDate" placeholder="クリックして日付を選択" required>
         </div>
 
         <div>

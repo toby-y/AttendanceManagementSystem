@@ -1,6 +1,8 @@
 package com.toby.system.service;
 
 import java.time.LocalDate;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.toby.system.dto.vacation.VacationDTO;
 import com.toby.system.dto.vacation.VacationRequestDTO;
+import com.toby.system.dto.vacation.VacationSummaryDTO;
 import com.toby.system.entity.Employee;
 import com.toby.system.entity.Vacation;
 import com.toby.system.repository.EmployeeRepository;
@@ -80,6 +83,28 @@ public class VacationService{
 	    vacationDTO.setReason(saved.getReason());
 	    vacationDTO.setStatus(saved.getStatus().getLabel());
 	    return vacationDTO;
+	}
+	
+	public VacationSummaryDTO getVacationSummary(String employeeId) { 
+		List<VacationDTO> vacations = employeeVacationList(employeeId);
+		Employee employee = employeeRepository.findById(employeeId)
+				.orElseThrow(() -> new IllegalArgumentException("社員が見つかりません"));
+		int years = Period.between(employee.getHireDate(),LocalDate.now()).getYears();
+		int total = 10 + years; // 有給総数
+		
+		int used = (int) vacations.stream()
+				.filter(v -> "有給".equals(v.getVacationType()))
+				.filter(v -> "承認済み".equals(v.getStatus()))
+				.mapToLong(v -> ChronoUnit.DAYS.between(v.getStartDate(),v.getEndDate()) + 1)
+				.sum();
+		
+		VacationSummaryDTO dto = new VacationSummaryDTO();
+		dto.setEmployeeId(employeeId);
+		dto.setEmployeeName(employee.getEmployeeName());
+		dto.setPaidLeaveTotal(total);
+		dto.setPaidLeaveUsed(used);
+		dto.setPaidLeaveRemaining(total - used);
+		return dto;
 	}
 	
 	private void validateVacation(Vacation vacation) {
