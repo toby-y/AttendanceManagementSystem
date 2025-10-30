@@ -1,10 +1,5 @@
-HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-
-### STS ###
+### IDEs ###
+# STS
 .apt_generated
 .classpath
 .factorypath
@@ -13,27 +8,42 @@ target/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
+# IntelliJ IDEA
 .idea
 *.iws
 *.iml
 *.ipr
 
-### NetBeans ###
+# NetBeans
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
+
+# VS Code
+.vscode/
+
+### ビルド成果物 ###
+target/
 build/
+dist/
+.mvn/wrapper/maven-wrapper.jar
+
+# 例外: サブフォルダのビルド成果物は追跡
+!**/src/main/**/target/
+!**/src/test/**/target/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### VS Code ###
-.vscode/
-
-# 機密ファイルを除外
+### 機密情報 ###
 application.properties
 application.yml
 application-prod.properties
 .env
+.env.local
+
+### その他 ###
+.DS_Store
+node_modules/
+HELP.md
