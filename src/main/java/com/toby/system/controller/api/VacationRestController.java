@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.toby.system.dto.vacation.VacationDTO;
@@ -43,5 +44,29 @@ public class VacationRestController {
 		VacationDTO savedVacation = vacationService.vacationRequest(dto);
 		return ResponseEntity.ok(savedVacation);
 		
+	}
+	
+	@PostMapping("{id}/approve")
+	public ResponseEntity<VacationDTO> approvalVacation(@PathVariable Long id,
+													@RequestParam String decidedBy){
+		VacationDTO approvalDTO = vacationService.approvalVacation(id,decidedBy);
+		return ResponseEntity.ok(approvalDTO);
+	}
+	
+	@PostMapping("{id}/reject")
+	public ResponseEntity<VacationDTO> rejectionVacation(@PathVariable Long id,
+													@RequestParam String decidedBy,
+													@RequestParam String reason){
+		VacationDTO rejectionDTO = vacationService.rejectionVacation(id,decidedBy,reason);
+		return ResponseEntity.ok(rejectionDTO);
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<VacationDTO> getVacationDetail(@PathVariable Long id) {
+	    VacationDTO dto = vacationService.getVacationById(id);
+	    if (dto == null) {
+	        return ResponseEntity.notFound().build();
+	    }
+	    return ResponseEntity.ok(dto);
 	}
 }

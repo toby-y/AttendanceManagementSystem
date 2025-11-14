@@ -1,6 +1,7 @@
 package com.toby.system.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -84,6 +85,48 @@ public class VacationService{
 	    vacationDTO.setStatus(saved.getStatus().getLabel());
 	    return vacationDTO;
 	}
+	
+	public VacationDTO approvalVacation(Long id,String decidedBy) {
+
+		Vacation approvalVacation = vacationRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("休暇が見つかりません"));
+		
+		Employee decidedEmployee = employeeRepository.findById(decidedBy)
+				.orElseThrow(() -> new IllegalArgumentException("社員が見つかりません"));
+		
+		approvalVacation.setDecidedBy(decidedEmployee);
+		approvalVacation.setStatus(Vacation.Status.APPROVED);
+		approvalVacation.setDecidedDate(LocalDateTime.now());
+		
+		Vacation saved = vacationRepository.save(approvalVacation);
+		
+		return VacationDTO.fromEntity(saved);
+	}
+	
+public VacationDTO rejectionVacation(Long id,String decidedBy,String reason) {
+		
+		Vacation approvalVacation = vacationRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("休暇が見つかりません"));
+		
+		Employee decidedEmployee = employeeRepository.findById(decidedBy)
+				.orElseThrow(() -> new IllegalArgumentException("社員が見つかりません"));
+		
+		approvalVacation.setDecidedBy(decidedEmployee);
+		approvalVacation.setStatus(Vacation.Status.REJECTED);
+		approvalVacation.setRejectedReason(reason);
+		approvalVacation.setDecidedDate(LocalDateTime.now());
+		
+		Vacation saved = vacationRepository.save(approvalVacation);
+		
+		return VacationDTO.fromEntity(saved);
+	}
+
+	public VacationDTO getVacationById(Long id) {
+	    return vacationRepository.findById(id)
+	        .map(VacationDTO::fromEntity)
+	        .orElse(null);
+	}
+
 	
 	public VacationSummaryDTO getVacationSummary(String employeeId) { 
 		List<VacationDTO> vacations = employeeVacationList(employeeId);

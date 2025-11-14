@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>休暇詳細</title>
+</head>
+<body>
+    <h2>休暇申請 詳細</h2>
+    <div>
+        <p>社員ID: <span id="employeeId"></span></p>
+        <p>氏名: <span id="employeeName"></span></p>
+        <p>期間: <span id="period"></span></p>
+        <p>種類:<span id="vacationType"></span></p>
+        <p>理由:<span id="reason"></span></p>
+    </div>
+
+    <hr>
+
+    <form id="decisionForm">
+        <label><input type="radio" name="decision" value="APPROVE">承認</label>
+        <label><input type="radio" name="decision" value="REJECT">棄却</label>
+
+        <div id="rejectReasonArea" style="display: none; margin: 10px;">
+            <label>棄却理由</label>
+            <textarea id="rejectReason" rows="3" col="40"></textarea>
+        </div>
+
+        <div style="margin-top: 10px;">
+            <button type="submit">決定</button>
+            <button type="button" onclick="history.back()">戻る</button>
+        </div>
+    </form>
+    <script src="/js/vacation-detail.js"></script>
+</body>
+</html>

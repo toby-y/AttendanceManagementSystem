@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const employeeId = "E001" //仮ログインユーザー
+    const employeeId = "E001" // TODO:仮ログインユーザー
     const form = document.getElementById("vacation-request-form");
     const messageDiv = document.getElementById("message");
 

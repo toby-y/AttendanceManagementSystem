@@ -2050,3 +2050,21 @@ SET
 hire_date = '2023-04-01'
 WHERE
 employee_id  is  ('E004','E005') [42001-232]
+2025-11-13 20:28:15.820427+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: SQLステートメントに文法エラーがあります "UPDATE vacation\000d\000aSET\000d\000a  decided_by [*]is null,\000d\000a  decided_date is null\000d\000aWHERE\000d\000a  id = 1"; 期待されるステートメント "., [, ="
+Syntax error in SQL statement "UPDATE vacation\000d\000aSET\000d\000a  decided_by [*]is null,\000d\000a  decided_date is null\000d\000aWHERE\000d\000a  id = 1"; expected "., [, ="; SQL statement:
+UPDATE vacation
+SET
+  decided_by is null,
+  decided_date is null
+WHERE
+  id = 1 [42001-232]
+2025-11-13 20:28:31.622470+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: SQLステートメントに文法エラーがあります "UPDATE vacation\000d\000aSET\000d\000a  decided_by [*]is null,\000d\000a  decided_date is null\000d\000aWHERE\000d\000a  id = 1"; 期待されるステートメント "., [, ="
+Syntax error in SQL statement "UPDATE vacation\000d\000aSET\000d\000a  decided_by [*]is null,\000d\000a  decided_date is null\000d\000aWHERE\000d\000a  id = 1"; expected "., [, ="; SQL statement:
+UPDATE vacation
+SET
+  decided_by is null,
+  decided_date is null
+WHERE
+  id = 1 [42001-232]

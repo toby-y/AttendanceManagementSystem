@@ -24,7 +24,6 @@ public class AttendanceController {
     private final AttendanceService attendanceService;
     private final EmployeeRepository employeeRepository;
 
-    // 社員を選んで打刻する簡易サンプル
     @GetMapping("/{employeeId}")
     public String viewAttendance(@PathVariable String employeeId, Model model) {
         Employee emp = employeeRepository.findById(employeeId).orElseThrow();
